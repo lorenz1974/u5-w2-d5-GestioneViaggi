@@ -1,5 +1,5 @@
 // src/main/java/u5w2d5/etm/model/Employee.java
-package u5w2d5.etm.model;
+package u5w2d5.etm.request;
 
 import java.util.List;
 
@@ -16,8 +16,6 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeeRequestDTO {
-
-    private Long id;
 
     @NotNull(message = "Username è obbligatorio")
     @Size(min = 2, max = 50, message = "Username deve essere tra 10 e 50 caratteri")
@@ -38,5 +36,4 @@ public class EmployeeRequestDTO {
 
     private String avatarUrl;
 
-    private List<Long> tripIds;
 }

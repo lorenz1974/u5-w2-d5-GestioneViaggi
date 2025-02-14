@@ -1,5 +1,5 @@
 // src/main/java/u5w2d5/etm/model/Employee.java
-package u5w2d5.etm.model;
+package u5w2d5.etm.response;
 
 import java.util.List;
 

@@ -1,7 +1,6 @@
 
-package u5w2d5.etm.model;
+package u5w2d5.etm.request;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -12,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookingDTO {
+public class BookingRequestDTO {
 
     @NotNull(message = "Viaggio è obbligatorio")
     @Min(value = 1, message = "Viaggio deve essere un numero positivo")

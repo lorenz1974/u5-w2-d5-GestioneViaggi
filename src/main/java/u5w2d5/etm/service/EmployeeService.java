@@ -8,14 +8,14 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
-
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import u5w2d5.etm.model.*;
 import u5w2d5.etm.repository.*;
-import u5w2d5.etm.response.CreateResponse;
+import u5w2d5.etm.request.EmployeeRequestDTO;
+import u5w2d5.etm.response.IdResponse;
+import u5w2d5.etm.response.EmployeeResponseDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -68,8 +68,10 @@ public class EmployeeService {
         return employeeDTO;
     }
 
-    public CreateResponse createEmployee(Employee employee) {
-        return new CreateResponse(employeeRepository.save(employee).getId());
+    public IdResponse createEmployee(EmployeeRequestDTO employee) {
+        Employee newEmployee = new Employee();
+        BeanUtils.copyProperties(employee, newEmployee);
+        return new IdResponse(employeeRepository.save(newEmployee).getId());
     }
 
     public Employee updateEmployee(Long id, Employee employeeDetails) {

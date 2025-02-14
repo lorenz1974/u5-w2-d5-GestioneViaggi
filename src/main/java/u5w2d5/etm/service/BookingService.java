@@ -1,7 +1,9 @@
 package u5w2d5.etm.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -9,8 +11,12 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import u5w2d5.etm.model.Booking;
-import u5w2d5.etm.repository.BookingRepository;
-import u5w2d5.etm.response.CreateResponse;
+import u5w2d5.etm.model.Employee;
+import u5w2d5.etm.model.Trip;
+import u5w2d5.etm.repository.*;
+import u5w2d5.etm.request.BookingRequestDTO;
+import u5w2d5.etm.response.BookingResponseDTO;
+import u5w2d5.etm.response.IdResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -19,9 +25,21 @@ import u5w2d5.etm.response.CreateResponse;
 public class BookingService {
 
     private final BookingRepository bookingRepository;
+    private final EmployeeRepository employeeRepository;
+    private final TripRepository tripRepository;
 
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
+    }
+
+    public List<BookingResponseDTO> getAllBookingsDTO() {
+        List<BookingResponseDTO> bookingDTOs = new ArrayList<>();
+        for (Booking booking : bookingRepository.findAll()) {
+            BookingResponseDTO bookingDTO = new BookingResponseDTO();
+            BeanUtils.copyProperties(booking, bookingDTO);
+            bookingDTOs.add(bookingDTO);
+        }
+        return bookingDTOs;
     }
 
     public Booking getBookingById(long id) {
@@ -29,8 +47,35 @@ public class BookingService {
                 .orElseThrow(() -> new EntityNotFoundException("Booking not found with id: " + id));
     }
 
-    public CreateResponse createBooking(Booking booking) {
-        return new CreateResponse(bookingRepository.save(booking).getId());
+    public BookingResponseDTO getBookingByIdDTO(long id) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Booking not found with id: " + id));
+        BookingResponseDTO bookingDTO = new BookingResponseDTO();
+        BeanUtils.copyProperties(booking, bookingDTO);
+        return bookingDTO;
+    }
+
+    public IdResponse createBooking(BookingRequestDTO bookingRequestDTO) {
+
+        Employee employee = employeeRepository.findById(bookingRequestDTO.getEmployeeId()).get();
+        Trip trip = tripRepository.findById(bookingRequestDTO.getTripId()).get();
+
+        if (bookingRepository.existsByEmployeeAndTrip(employee, trip)) {
+            throw new IllegalArgumentException("The employee has already booked this trip.");
+        }
+        Booking booking = new Booking();
+        BeanUtils.copyProperties(bookingRequestDTO, booking);
+        booking.setEmployee(employee);
+        booking.setTrip(trip);
+        return new IdResponse(bookingRepository.save(booking).getId());
+    }
+
+    public IdResponse createBooking(Booking booking) {
+
+        if (bookingRepository.existsByEmployeeAndTrip(booking.getEmployee(), booking.getTrip())) {
+            throw new IllegalArgumentException("The employee has already booked this trip.");
+        }
+        return new IdResponse(bookingRepository.save(booking).getId());
     }
 
     public Booking updateBooking(long id, Booking updatedBooking) {

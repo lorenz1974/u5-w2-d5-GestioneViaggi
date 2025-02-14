@@ -6,9 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import u5w2d5.etm.model.Employee;
-import u5w2d5.etm.model.EmployeeResponseDTO;
 import u5w2d5.etm.model.Trip;
-import u5w2d5.etm.response.CreateResponse;
+import u5w2d5.etm.request.EmployeeRequestDTO;
+import u5w2d5.etm.response.IdResponse;
+import u5w2d5.etm.response.EmployeeResponseDTO;
 import u5w2d5.etm.service.EmployeeService;
 import u5w2d5.etm.service.TripService;
 
@@ -35,14 +36,9 @@ public class EmployeeController {
         return employeeService.getEmployeeByIdDTO(id);
     }
 
-    @GetMapping("/{id}/trips")
-    public List<Trip> getEmployeeTrips(@PathVariable Long id) {
-        return tripService.getEmployeeTrips(id);
-    }
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateResponse createEmployee(@RequestBody Employee employee) {
+    public IdResponse createEmployee(@RequestBody EmployeeRequestDTO employee) {
         return employeeService.createEmployee(employee);
     }
 

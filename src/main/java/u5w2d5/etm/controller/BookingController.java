@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 import u5w2d5.etm.model.Booking;
-import u5w2d5.etm.response.CreateResponse;
+import u5w2d5.etm.request.BookingRequestDTO;
+import u5w2d5.etm.response.BookingResponseDTO;
+import u5w2d5.etm.response.IdResponse;
 import u5w2d5.etm.service.BookingService;
 import java.util.List;
 
@@ -17,18 +19,18 @@ public class BookingController {
     private final BookingService bookingService;
 
     @GetMapping
-    public List<Booking> getAll() {
-        return bookingService.getAllBookings();
+    public List<BookingResponseDTO> getAllDTO() {
+        return bookingService.getAllBookingsDTO();
     }
 
     @GetMapping("/{id}")
-    public Booking getBookingById(@PathVariable Long id) {
-        return bookingService.getBookingById(id);
+    public BookingResponseDTO getBookingByIdDTO(@PathVariable Long id) {
+        return bookingService.getBookingByIdDTO(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateResponse createBooking(@RequestBody Booking booking) {
+    public IdResponse createBooking(@RequestBody BookingRequestDTO booking) {
         return bookingService.createBooking(booking);
     }
 
