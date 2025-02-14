@@ -1,8 +1,6 @@
 // src/main/java/u5w2d5/etm/model/Employee.java
 package u5w2d5.etm.request;
 
-import java.util.List;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

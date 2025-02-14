@@ -5,14 +5,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import u5w2d5.etm.exception.ExceptionHandlerClass;
 import u5w2d5.etm.model.*;
 import u5w2d5.etm.repository.*;
 import u5w2d5.etm.request.TripRequestDTO;
@@ -27,7 +25,6 @@ public class TripService {
 
     private final TripRepository tripRepository;
     private final BookingRepository bookingRepository;
-    private final EmployeeService employeeService;
 
     public List<Trip> getAll() {
         return tripRepository.findAll();

@@ -11,7 +11,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import u5w2d5.etm.model.*;
-import u5w2d5.etm.request.BookingRequestDTO;
 import u5w2d5.etm.request.EmployeeRequestDTO;
 import u5w2d5.etm.request.TripRequestDTO;
 import u5w2d5.etm.service.*;

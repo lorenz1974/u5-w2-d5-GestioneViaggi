@@ -25,8 +25,8 @@ import u5w2d5.etm.response.IdResponse;
 public class BookingService {
 
     private final BookingRepository bookingRepository;
-    private final EmployeeRepository employeeRepository;
-    private final TripRepository tripRepository;
+    private final EmployeeService employeeService;
+    private final TripService tripService;
 
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
@@ -57,12 +57,13 @@ public class BookingService {
 
     public IdResponse createBooking(BookingRequestDTO bookingRequestDTO) {
 
-        Employee employee = employeeRepository.findById(bookingRequestDTO.getEmployeeId()).get();
-        Trip trip = tripRepository.findById(bookingRequestDTO.getTripId()).get();
+        Employee employee = employeeService.getEmployeeById(bookingRequestDTO.getEmployeeId());
+        Trip trip = tripService.getTripById(bookingRequestDTO.getTripId());
 
         if (bookingRepository.existsByEmployeeAndTrip(employee, trip)) {
             throw new IllegalArgumentException("The employee has already booked this trip.");
         }
+
         Booking booking = new Booking();
         BeanUtils.copyProperties(bookingRequestDTO, booking);
         booking.setEmployee(employee);

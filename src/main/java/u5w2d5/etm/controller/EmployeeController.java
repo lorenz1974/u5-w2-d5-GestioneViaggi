@@ -6,12 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import u5w2d5.etm.model.Employee;
-import u5w2d5.etm.model.Trip;
 import u5w2d5.etm.request.EmployeeRequestDTO;
 import u5w2d5.etm.response.IdResponse;
 import u5w2d5.etm.response.EmployeeResponseDTO;
 import u5w2d5.etm.service.EmployeeService;
-import u5w2d5.etm.service.TripService;
 
 import java.util.List;
 
@@ -21,7 +19,6 @@ import java.util.List;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
-    private final TripService tripService;
 
     @GetMapping
     // public List<Employee> getAll() {
